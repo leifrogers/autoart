@@ -12,10 +12,12 @@
   (slot firstname)
   (slot lastname)
   (slot connection)
-  (slot relationship))
+  (slot relationship)
+  (multislot association))
 
 (deftemplate mood
-  (slot typeof))
+  (slot typeof)
+  (slot association))
 
 (deftemplate mood-strength
   (slot strength))
@@ -25,7 +27,8 @@
   (slot influence))
 
 (deftemplate time-of-day
-  (slot time))
+  (slot time)
+  (multislot association))
 
 (deftemplate influence-person
   (slot firstname)
@@ -37,14 +40,16 @@
   (multislot comments))
 
 (deftemplate general-locations
-  (slot location))
+  (slot location)
+  (multislot association))
 
 (deftemplate detailed-locations
   (slot general-location)
   (slot detailed-location)
   (slot foreground)
   (slot background)
-  (multislot details))
+  (multislot details)
+  (multislot association))
 
 (deftemplate global-subject
   (slot subject))
@@ -63,6 +68,10 @@
 (deftemplate detailed-medium
   (slot typeof)
   (slot medium))
+
+(deftemplate memory
+  (slot description)
+  (multislot association))
 
 (deftemplate chosen
   (slot thing)
@@ -283,50 +292,50 @@
 
 (deffacts all-the-knowledge
 
-  (mood (typeof depressed))
-  (mood (typeof blue))
-  (mood (typeof melancholy))
-  (mood (typeof bored))
-  (mood (typeof reflective))
-  (mood (typeof nostalgic))
-  (mood (typeof happy))
-  (mood (typeof curious))
-  (mood (typeof dreamy))
-  (mood (typeof mad))
-  (mood (typeof sad))
-  (mood (typeof angry))
-  (mood (typeof indifferent))
-  (mood (typeof disassociated))
+  (mood (typeof depressed)(association 1))
+  (mood (typeof blue)(association 2))
+  (mood (typeof melancholy)(association 3))
+  (mood (typeof bored)(association 4))
+  (mood (typeof reflective)(association 5))
+  (mood (typeof nostalgic)(association 6))
+  (mood (typeof happy)(association 7))
+  (mood (typeof curious)(association 8))
+  (mood (typeof dreamy)(association 9))
+  (mood (typeof mad)(association 10))
+  (mood (typeof sad)(association 11))
+  (mood (typeof angry)(association 12))
+  (mood (typeof indifferent)(association 13))
+  (mood (typeof disassociated)(association 14))
 
   (mood-strength (strength strong))
   (mood-strength (strength weak))
   (mood-strength (strength medium))
 
-  (time-of-day (time morning))
-  (time-of-day (time noon))
-  (time-of-day (time afternoon))
-  (time-of-day (time evening))
-  (time-of-day (time night))
-  (time-of-day (time midnight))
-  (time-of-day (time 3am))
+  (time-of-day (time morning)(association 6))
+  (time-of-day (time noon)(association 6))
+  (time-of-day (time afternoon)(association 6))
+  (time-of-day (time evening)(association 6))
+  (time-of-day (time night)(association 6))
+  (time-of-day (time midnight)(association 6))
+  (time-of-day (time 3am)(association 6))
   
   (global-medium (medium painting))
   (global-medium (medium drawing))
   (global-medium (medium digital))
 
-  (detailed-medium (typeof digital) (medium code))
-  (detailed-medium (typeof digital) (medium glitch))
-  (detailed-medium (typeof digital) (medium photoshop))
+  (detailed-medium (typeof digital)(medium code))
+  (detailed-medium (typeof digital)(medium glitch))
+  (detailed-medium (typeof digital)(medium photoshop))
 
-  (detailed-medium (typeof painting) (medium oil))
-  (detailed-medium (typeof painting) (medium acrylic))
-  (detailed-medium (typeof painting) (medium watercolor))
+  (detailed-medium (typeof painting)(medium oil))
+  (detailed-medium (typeof painting)(medium acrylic))
+  (detailed-medium (typeof painting)(medium watercolor))
 
-  (detailed-medium (typeof drawing) (medium graphite))
-  (detailed-medium (typeof drawing) (medium charcoal))
-  (detailed-medium (typeof drawing) (medium conte))
-  (detailed-medium (typeof drawing) (medium colored-pencil))
-  (detailed-medium (typeof drawing) (medium oil-pastel))
+  (detailed-medium (typeof drawing)(medium graphite))
+  (detailed-medium (typeof drawing)(medium charcoal))
+  (detailed-medium (typeof drawing)(medium conte))
+  (detailed-medium (typeof drawing)(medium colored-pencil))
+  (detailed-medium (typeof drawing)(medium oil-pastel))
   
   (global-subject (subject landscape))
   (global-subject (subject portrait))
@@ -338,36 +347,25 @@
 ;;;==========================================================================
 ;;;Family Connections
 ;;;==========================================================================
-  (person (firstname Leif)(lastname Rogers)(connection family)(relationship
-							       myself))
-  (person (firstname Julie)(lastname Rogers)(connection family)(relationship
-								wife))
-  (person (firstname Luke)(lastname Rogers)(connection family)(relationship son))
-  
-  (person (firstname Eric)(lastname Rogers)(connection family)(relationship
-							       brother))
-  (person (firstname Charles)(lastname Rogers)(connection family)(relationship
-								 nephew))
-  (person (firstname Larry)(lastname Rogers)(connection family)(relationship
-								father))
-  (person (firstname Claire)(lastname Rogers)(connection family)(relationship
-								 mother))
-  (person (firstname Marie)(lastname Seyller)(connection family)(relationship
-								 grandmother))
-  (person (firstname Charles)(lastname Seyller)(connection family)(relationship
-								   grandfather))
-  (person (firstname Justin)(lastname Hastings)(connection neighborhood)
-	  (relationship friend))
+  (person (firstname Leif)(lastname Rogers)(connection family)(relationship myself)(association 1))
+  (person (firstname Julie)(lastname Rogers)(connection family)(relationship wife)(association 6))
+  (person (firstname Luke)(lastname Rogers)(connection family)(relationship son)(association 7))
+  (person (firstname Eric)(lastname Rogers)(connection family)(relationship brother)(association 6))
+  (person (firstname Charles)(lastname Rogers)(connection family)(relationship nephew)(association 6))
+  (person (firstname Larry)(lastname Rogers)(connection family)(relationship father)(association 6))
+  (person (firstname Claire)(lastname Rogers)(connection family)(relationship mother)(association 6))
+  (person (firstname Marie)(lastname Seyller)(connection family)(relationship grandmother)(association 6))
+  (person (firstname Charles)(lastname Seyller)(connection family)(relationship grandfather)(association 6))
+  (person (firstname Justin)(lastname Hastings)(connection neighborhood)(relationship friend)(association 6))
   
 
 ;;;===============================================================================
 ;;; Church connections
 ;;;===============================================================================
-  (person (firstname Gary)(lastname Fehrenbach)(connection church)(relationship
-								   friend))
-  (person (firstname Bob)(lastname Kasperson)(connection church)(relationship pastor))	
-  (person (firstname Tom)(lastname Skogen)(connection church)(relationship friend))	
-  (person (firstname Vi)(lastname Skogen)(connection church)(relationship friend))
-  (person (firstname Jim)(lastname Steinwart)(connection church)(relationship friend))	
-  (person (firstname Barb)(lastname Steinwart)(connection church)(relationship friend))
+  (person (firstname Gary)(lastname Fehrenbach)(connection church)(relationship friend)(association 6))
+  (person (firstname Bob)(lastname Kasperson)(connection church)(relationship pastor)(association 6))	
+  (person (firstname Tom)(lastname Skogen)(connection church)(relationship friend)(association 6))	
+  (person (firstname Vi)(lastname Skogen)(connection church)(relationship friend)(association 6))
+  (person (firstname Jim)(lastname Steinwart)(connection church)(relationship friend)(association 6))	
+  (person (firstname Barb)(lastname Steinwart)(connection church)(relationship friend)(association 6))
 )
