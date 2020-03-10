@@ -1,10 +1,45 @@
 '''add a fact -> new facts added to factoids then added to autoart.clp'''
 import datetime
+import string
 import os
 
 filename = "factoids.clp"
 preload = open(filename, "r")
 lines = [line.rstrip('\n') for line in preload]
+
+
+# there's better ways of formatting strings than below but i'm not
+# in the mood to deal with it for the moment
+moods = ["1 depressed     ",
+         "2 blue          ",
+         "3 melancholy    ",
+         "4 bored         ",
+         "5 reflective    ",
+         "6 nostalgic     ",
+         "7 happy         ",
+         "8 curious       ",
+         "9 dreamy        ",
+         "10 mad          ",
+         "11 sad          ",
+         "12 angry        ",
+         "13 indifferent  ",
+         "14 disassociated"]
+
+choice_slots = ["1: Person           ",
+                "2: General Location ",
+                "3: Detailed Location",
+                "4: Mood             ",
+                "5: Mood Strength    ",
+                "6: Time of Day      ",
+                "7: influence_person ",
+                "8: influence_other  ",
+                "9: Memory           ",
+                "q: Quit             "]
+
+
+def fmtcols(mylist, cols):
+    lines = ("\t".join(mylist[i:i+cols]) for i in range(0, len(mylist), cols))
+    return '\n'.join(lines)
 
 
 def writefact(fact):
@@ -33,8 +68,9 @@ def person():
     lastname = input("Last Name: ")
     connection = input("Connection: ")
     relationship = input("Relationship: ")
+    print(fmtcols(moods, 2))
     association = input("Enter mood association numbers: ")
-    fact = "(person (firstname {})(lastname {})(connection {})(relationship {})(association{}))\n".format(
+    fact = "(person (firstname {})(lastname {})(connection {})(relationship {})(association {}))\n".format(
         firstname, lastname, connection, relationship, association)
     writefact(fact)
 
@@ -46,8 +82,9 @@ def person():
 def general_location():
     location = input(
         "Enter a general location (city, building, state, area, etc.): ")
+    print(fmtcols(moods, 2))
     association = input("Enter mood association numbers: ")
-    fact = "(general-locations (location{}) (association{}))\n".format(location, association)
+    fact = "(general-locations (location {}) (association {}))\n".format(location, association)
     writefact(fact)
 
 
@@ -67,8 +104,9 @@ def detailed_location():
     foreground = input("Enter a foreground detail: ")
     background = input("Enter a background detail: ")
     details = input("Enter other details (multislot field): ")
+    print(fmtcols(moods, 2))
     association = input("Enter mood association numbers: ")
-    fact = "(detailed-locations (general-location {})(detailed-location {})(foreground {})(background {})(details {})(association{}))\n".format(
+    fact = "(detailed-locations (general-location {})(detailed-location {})(foreground \"{}\")(background \"{}\")(details {})(association {}))\n".format(
         location, detailed_location, foreground, background, details, association)
     writefact(fact)
 
@@ -104,8 +142,9 @@ def mood_strength():
 def time_of_day():
     timeofday = input(
         "Enter a time (noon, breakfast, midnight, 2pm, etc): ")
+    print(fmtcols(moods, 2))
     association = input("Enter mood association numbers: ")
-    fact = "(time-of-day (time{}) (association{}))\n".format(timeofday, association)
+    fact = "(time-of-day (time {}) (association {}))\n".format(timeofday, association)
     writefact(fact)
 
 # (deftemplate influence-person
@@ -191,16 +230,7 @@ def main():
     print(";;;================================")
     print(";;;Select a fact template to enter:")
     print(";;;================================")
-    print("1: Person")
-    print("2: General Location")
-    print("3: Detailed Location")
-    print("4: Mood")
-    print("5: Mood Strength")
-    print("6: Time of Day")
-    print("7: influence_person"),
-    print("8: influence_other"),
-    print("9: Memory")
-    print("q: Quit")
+    print(fmtcols(choice_slots, 2))
     template_choice = input()
     choose(template_choice)
 
