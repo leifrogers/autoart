@@ -64,3 +64,6 @@
 (general-locations (locationPlainfield) (association1 2 3 4 5 7 8 9 10 11 12 13 14))
 (person (firstname Leonard)(lastname Rogers)(connection family)(relationship grandfather)(association 13 6))
 (person (firstname Herbert)(lastname Wernette)(connection family)(relationship great-uncle)(association 1 2 3 5 6 7 11 14))
+(general-locations (location Montgomery) (association 1 4 6 13))
+(general-locations (location Chicago) (association 1 2 3 4 5 6 7 8 9 10 11 12 13 14))
+(general-locations (location SAIC) (association 1 2 3 5 6 7 11 13 14))
